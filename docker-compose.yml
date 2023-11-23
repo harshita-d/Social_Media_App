@@ -1,0 +1,28 @@
+version: "3.9"
+# this is the version of docker-compose syntax that we will use 
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        - DEV=true
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app 
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+    
+# 1. Service:- it is a keyword used to define different service. docker compose file can consist of one or more services.
+#              each service represents a container or a group of conatiners
+# 2. App:- It is the name given to the service being defined. We can reference the service using this in docker compose configuration.
+# 3. Build:- It specifies how to build docker images for this service. 
+#            a. Context:- here the context is (".") means the docker file for this service is meant to be in current directory.
+# 4. Ports:- This maps ports from container to host machines. and we can access the service running inside conatiner via localhost:8000
+# 5. volumes:- It links a directory from host machine to the directory inside conatiner. and when we chanhe anything in host machine the conatiner automaticaaly gets updated and so no need to rebuild the conatiner
+#              "./app:/app":- it mounts the "./app" directory in host machine to the "/app" directory inside conatiner.
+# 6. command:- it specifies the command to be executed when the conatiner starts. where "sh" means to start the shell and inside it runserver command is executed.
+#              a. ">":- its a yml indicator that spans multiple lines but is treated as a sinle command when executed inside the comtainer. 
+# 7. args:- It is specifying a list of arguments that will be passed to the build process of the service
+#           a. "DEV=true":- here DEV is the build argument and the value is setting to true. This DEV argument is accessibile within the docker file during the build process

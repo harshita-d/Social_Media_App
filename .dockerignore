@@ -1,0 +1,19 @@
+# the files mentioned here are excluded from docker context
+# when we run the docker image it uses something called docker context 
+# docker context is the directory from where we are running from 
+
+# Git
+.git 
+.gitignore
+
+# Docker
+.docker
+
+# Python
+app/__pycache__/
+app/*/__pycache__/
+app/*/*/__pycache__/
+app/*/*/*/__pycache__/
+.env/
+.venv/
+venv/
