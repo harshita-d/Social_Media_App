@@ -61,3 +61,4 @@ USER django-user
 
 # if we do not specify the USER then everything is done as root user but here we specify the user as django-user and also untill this line everthing is done as root user
 # the conatiners that is created out of this image is will run using the last user the image switched to 
+#
