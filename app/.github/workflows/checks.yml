@@ -1,0 +1,45 @@
+---
+# these above three "-" specifies that its a yml file
+
+name: Checks
+# this name is going to appear in github actions
+
+on: [push]
+
+# "on: [push]":- this is a trigger means we want this particular github actions to run on push.
+
+jobs:
+  test-lint:
+    name: Test and Lint 
+    runs-on: ubuntu-20.04
+    steps: 
+      - name: Login tpo Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{secrets.DOKERHUB_USER}}
+          password: ${{secrets.DOCKERHUB.TOKEN}}
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Test
+        run: docker-compose run --rm app sh -c "python manage.py test"
+      - name: Lint
+        run: docker-compose run --rm app sh -c "python manage.py flake8"
+
+# 1. "jobs:":- this defines one or more jobs that need to be executed.
+# 2. "test-lint:":- it is a name given to a specific job. we can use any name to identify the job.
+# 3. "name: Test and Lint":- it gives a display name to the job.
+# 4. "runs-on: ubuntu-20.04":- this line specifies the type of venv where this job will be executed 
+# 5. "steps:":- This section defines a list of sequential steps that the github actions workflow will execute.
+# 6. "name: Login tpo Docker Hub":- its the name for identification purpose within the workflow.
+# 7. "uses: docker/login-action@v1":- "Uses" specifies the action that the workflow should use. It can point either to a specific repository or to a pre defined actions
+#                                      available in github marketplace. But in this case its indicating that the step should use an action related to Docker operations.
+#                                      "docker/login-action@v1" this is a specific action and its named login-action provided by docker. "@v1" denotes the version 1.
+#                                       "docker/login-action@v1" this entire part is specifically designed to handle the authentication process with docker-hub within github actions workflow
+# 8. "name: Checkout":-its the name for identification purpose
+# 9. "uses:actions/checkout@v2":- It is utilizing an action named `checkout` provided by the github actions organizations. It checks our code out inside our github actions job 
+#                                 because by default the code is not checked out inside the job 
+# 10. "run :" it is the command to run test and Lint 
+
+
+
+
