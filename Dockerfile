@@ -32,13 +32,13 @@ RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
     /py/bin/pip install -r /tmp/requirements.txt && \
     if [ $DEV = "true" ]; \
-    then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
+        then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
     fi && \
     rm -rf /tmp && \
     adduser \
-    --disabled-password \
-    --no-create-home \
-    django-user
+        --disabled-password \
+        --no-create-home \
+        django-user
 
 # RUN runs a command on alpine image that we are using  and if for every command we write RUN then it will create new image layer but we want to keep our images light weight
 # so to concatenate multiple commands into single RUN we use "&& \"
