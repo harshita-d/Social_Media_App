@@ -39,7 +39,6 @@ jobs:
 # 9. "uses:actions/checkout@v2":- It is utilizing an action named `checkout` provided by the github actions organizations. It checks our code out inside our github actions job 
 #                                 because by default the code is not checked out inside the job 
 # 10. "run :" it is the command to run test and Lint 
-#
 
 
 
