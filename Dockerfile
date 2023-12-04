@@ -55,7 +55,7 @@ RUN python -m venv /py && \
 # "--disabled-password"  add user we disabled password mean no password is required to logon to it
 # "--no-create-home"  does not create a home directory for the user 
 # "django-user" specifies the name of the user 
-# "apk add --update --no-cache postgresql-client && \":- Here we installed the postresql client that will be installed inside our alpine image in order for Psycopg2 package to be able to connect to postgres
+# "apk add --update --no-cache postgresql-client && \":- Here we installed the postresql client and jpeg-dev that will be installed inside our alpine image in order for Psycopg2 package to be able to connect to postgres
 # "apk add --update --no-cache --virtual .tmp-build-deps \":- "--virtual .tmp-build-deps" this sets a virtual dependency package group called ".tmp-build-deps". Here it groups the dependency that we install in this. 
 # "build-base postresql-dev musl-dev && \":- Here we have listed the packages that are needed in order to install our PostreSQL adapter. 
 # "apk del .tmp-build-deps && \":- here we our removing ".tmp-build-deps"
