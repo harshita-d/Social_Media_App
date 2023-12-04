@@ -1,5 +1,5 @@
 version: "3.9"
-# this is the version of docker-compose syntax that we will use 
+# this is the version of docker-compose syntax that we will use
 
 services:
   app:
@@ -10,19 +10,57 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./app:/app 
+      - ./app:/app
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
-    
+    environment:
+      - DB_HOST=db
+      - DB_NAME=devdb
+      - DB_USER=devuser
+      - DB_PASS=changeme
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - dev-db-data:/var/lib/postresql/data
+    environment:
+      - POSTGRES_DB=devdb
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=changeme
+
+volumes:
+  dev-db-data:
+#/******app service******/
 # 1. Service:- it is a keyword used to define different service. docker compose file can consist of one or more services.
 #              each service represents a container or a group of conatiners
 # 2. App:- It is the name given to the service being defined. We can reference the service using this in docker compose configuration.
-# 3. Build:- It specifies how to build docker images for this service. 
+# 3. Build:- It specifies how to build docker images for this service.
 #            a. Context:- here the context is (".") means the docker file for this service is meant to be in current directory.
 # 4. Ports:- This maps ports from container to host machines. and we can access the service running inside conatiner via localhost:8000
 # 5. volumes:- It links a directory from host machine to the directory inside conatiner. and when we chanhe anything in host machine the conatiner automaticaaly gets updated and so no need to rebuild the conatiner
 #              "./app:/app":- it mounts the "./app" directory in host machine to the "/app" directory inside conatiner.
 # 6. command:- it specifies the command to be executed when the conatiner starts. where "sh" means to start the shell and inside it runserver command is executed.
-#              a. ">":- its a yml indicator that spans multiple lines but is treated as a sinle command when executed inside the comtainer. 
+#              a. ">":- its a yml indicator that spans multiple lines but is treated as a sinle command when executed inside the comtainer.
 # 7. args:- It is specifying a list of arguments that will be passed to the build process of the service
 #           a. "DEV=true":- here DEV is the build argument and the value is setting to true. This DEV argument is accessibile within the docker file during the build process
+# 8. environment:- This is for DB setting and tell app how to connect to database
+#                  a. DB_HOST=db:- here DB_HOST name should be same as the database service name therefore its named as "db"
+#                  b. DB_NAME=devdb:- here DB_NAME shoule match POSTGRES_DB
+#                  c. DB_USER=devuser:- here DB_USER==POSTGRES_USER
+#                  d. DB_PASS=changeme:- here DB_PASS==POSTGRES_PASSWORD
+# 9. depends_on: - db:- it tell app service that it depends in db service
+
+#/******database service******/
+# 1. db: this is the service or container name within the docker-compose
+# 2. image:postgres:13-alpine: this defines the docker image for the postgresSQL service.
+# 3. volumes: dev-db-data:....:- This mounts the named volume "dev-db-data" to the postresql container at the path described. This persist the data outside conatiner, ensuring data persistence even if the conatiner is removed.
+# 4. environment:- Thi sets environment variable with in postres SQL constiner.
+#                  devdb:- This is the database name
+
+#/******Volumes********/
+# 1. volumes:dev-db-data:- Here dev-db-data is a names volume therefore we do not need to specify any value to it and this named volume will be created when the docker compose configuration is executed.
+#                          named volume created this way have an implicit association with a path within the conatiner they are mounted on.
+#                          This volume section helps create the volume that's then used by the postresql service to persist this data outside the container.
+
