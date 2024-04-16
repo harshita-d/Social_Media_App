@@ -25,5 +25,5 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS("Database available"))
 
 
-# the command inherit from the basecommand, which is the base class for all management commands in Django.
-# the handle method is the entry point for the management command. it is called when the command is executed.
+# the command inherit from the basecommand, which is the base class for all management commands in Django. # noqa: E501
+# the handle method is the entry point for the management command. it is called when the command is executed. # noqa: E501
