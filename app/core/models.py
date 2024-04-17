@@ -23,9 +23,7 @@ class UserManager(BaseUserManager):
         user.set_password(password)  # here it will encrypt the password
 
         # Save
-        user.save(
-            using=self._db
-        )  # here self._db is usd to save multiple databases # noqa: E501
+        user.save(using=self._db)  # here self._db is usd to save multiple databases
 
         # return
         return user
