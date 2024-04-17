@@ -18,12 +18,30 @@ class UserManager(BaseUserManager):
         """create->save->return new user"""
         # Create
 
+        # condition to check empty email address
+        if not email:
+            raise ValueError("User must have an email address")
         # self.normalize is provided by BaseUserManager to normalize email
         user = self.model(email=self.normalize_email(email), **extraFields)
         user.set_password(password)  # here it will encrypt the password
 
         # Save
         user.save(using=self._db)  # here self._db is usd to save multiple databases
+
+        # return
+        return user
+
+    def create_superuser(self, email, password):
+        """create, save and return a new superuser"""
+
+        # create
+        # for creating a user we can make use of above method of create_user
+        user = self.create_user(email, password)
+        user.is_staff = True
+        user.is_superuser = True
+
+        # save
+        user.save(using=self._db)
 
         # return
         return user

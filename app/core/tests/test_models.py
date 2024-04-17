@@ -44,3 +44,21 @@ class ModelTests(TestCase):
             # create_user is the function in UserManager which is associated with custom user model class User
             user = get_user_model().objects.create_user(email, "sample123")
             self.assertEqual(user.email, expected)
+
+    def test_new_user_without_email_raises_error(self):
+        """Test that creating a user without email address raises an error"""
+
+        with self.assertRaises(ValueError):
+            get_user_model().objects.create_user("", "123")
+
+    def test_create_superuser(self):
+        """test creating a superuser"""
+        # we will send email and password
+        user = get_user_model().objects.create_superuser("test@example.com", "test123")
+
+        # superuser permission is provided by mixin
+        self.assertTrue(user.is_superuser)
+        self.assertTrue(user.is_staff)
+        # we need both superuser and staff as true because
+        # staff allows to login into django admin
+        # superuser allows access to everything inside django app
