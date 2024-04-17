@@ -13,7 +13,7 @@ from django.contrib.auth.models import (
 class UserManager(BaseUserManager):
     """user model manager"""
 
-    # manager is associated to a model, so need a way to access the model which the manager is associated with for this we use self.model which is same as defining a new user # noqa: E501
+    # manager is associated to a model, so need a way to access the model which the manager is associated with for this we use self.model which is same as defining a new user
     def create_user(self, email, password=None, **extraFields):
         """create->save->return new user"""
         # Create
