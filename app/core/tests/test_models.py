@@ -30,7 +30,7 @@ class ModelTests(TestCase):
         # self.assertTrue(user.check_password(password)): Asserts that the check_password() method returns True when validating the provided password against the hashed password stored in the user instance. # noqa: E501
 
     def test_new_user_email_normalize(self):
-        """test email is normalized for new users by lowercasing the second part of email i.e is after @"""
+        """test email is normalized for new users by lowercasing the second part of email i.e is after @"""  # noqa: E501
         # in below sample first part is the input email from user and second is the normalized email. # noqa: E501
         sample_emails = [
             ["test1@EXAMPLE.com", "test1@example.com"],
