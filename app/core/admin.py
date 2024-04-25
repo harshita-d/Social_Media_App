@@ -24,6 +24,7 @@ class UserAdmin(BaseUserAdmin):
 
     # the below changes are for the screen for http://127.0.0.1:8000/admin/core/user/1/change/
     # we will specify fieldset that we have created in our custom model
+    # below fields will show when changing the user
     fieldsets = (
         (None, {"fields": ("email", "password")}),
         (
@@ -39,6 +40,9 @@ class UserAdmin(BaseUserAdmin):
         (_("Important dates"), {"fields": ("last_login",)}),
     )
     readonly_fields = ["last_login"]
+
+    # add_fieldsets will be asked while adding a new user
+    # classes in below add default css classes to add user page
     add_fieldsets = (
         (
             None,
