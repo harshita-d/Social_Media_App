@@ -40,3 +40,30 @@ class PublicUserApiTests(TestCase):
 
         # here we are checking that the saved password is not returned in response as it can cause a security issue
         self.assertNotIn("password", res.data)
+
+    def test_user_with_email_exist_error(self):
+        payload = {
+            "email": "test@example.com",
+            "password": "123",
+            "name": "Test Name",
+        }
+        create_user(**payload)
+
+        res = self.client.post(CREATE_USER_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_password_too_short_error(self):
+        payload = {
+            "email": "test@example.com",
+            "password": "123",
+            "name": "Test Name",
+        }
+
+        res = self.client.post(CREATE_USER_URL, payload)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+        # below lines will check if user exists or not after getting 400 bad request status
+        user_exists = get_user_model().objects.filter(email=payload["email"]).exists()
+
+        self.assertFalse(user_exists)
